@@ -12,6 +12,8 @@ namespace SoundWaveSimulator
         private Bitmap _mic, _speaker;
         private int _micPosition = 0;
         private double _omegaT = InitialOmegaT;
+        private Pen _yellowPen = new Pen(Color.Yellow, 2);
+        private Pen _aquaPen = new Pen(Color.Aqua, 2);
         public MainForm()
         {
             InitializeComponent();
@@ -51,8 +53,8 @@ namespace SoundWaveSimulator
                 pointsSpk[x] = new PointF(x, (float)(WavePicture.Height / 2 + waveAmplitudeCoefficient * Sine(x + GetXSpkMembranaAvg())));
                 pointsMic[x] = new PointF(x, (float)(WavePicture.Height / 2 + waveAmplitudeCoefficient * Sine(x + GetXMicMembranaAvg())));
             }
-            g.DrawLines(Pens.Yellow, pointsSpk);
-            g.DrawLines(Pens.Aqua, pointsMic);
+            g.DrawLines(_yellowPen, pointsSpk);
+            g.DrawLines(_aquaPen, pointsMic);
         }
 
         private void Picture_Paint(object sender, PaintEventArgs e)

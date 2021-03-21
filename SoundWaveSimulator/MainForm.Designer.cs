@@ -44,8 +44,10 @@ namespace SoundWaveSimulator
             // 
             // Picture
             // 
-            this.Picture.BackColor = System.Drawing.Color.White;
+            this.Picture.BackColor = System.Drawing.Color.Black;
+            this.Picture.Cursor = System.Windows.Forms.Cursors.Default;
             this.Picture.Dock = System.Windows.Forms.DockStyle.Top;
+            this.Picture.InitialImage = null;
             this.Picture.Location = new System.Drawing.Point(0, 0);
             this.Picture.Name = "Picture";
             this.Picture.Size = new System.Drawing.Size(1683, 476);
@@ -97,7 +99,7 @@ namespace SoundWaveSimulator
             this.trackBar1.Value = 10;
             this.trackBar1.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
             // 
-            // Form1
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -108,8 +110,8 @@ namespace SoundWaveSimulator
             this.Controls.Add(this.WavePicture);
             this.Controls.Add(this.trackBar);
             this.Controls.Add(this.Picture);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "MainForm";
+            this.Text = "Sound Wave";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.Picture)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar)).EndInit();

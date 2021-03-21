@@ -9,11 +9,11 @@ namespace SoundWaveSimulator
         private const double InitialOmegaT = 0.01 * Math.PI;
 
         private int _waveOffset = 0;
-        private Bitmap _mic, _speaker;
+        private readonly Bitmap _mic = new Bitmap("se1mic-1.png"), _speaker = new Bitmap("emmiter1-1.png");
         private int _micPosition = 0;
         private double _omegaT = InitialOmegaT;
-        private Pen _yellowPen = new Pen(Color.Yellow, 2);
-        private Pen _aquaPen = new Pen(Color.Aqua, 2);
+        private readonly Pen _yellowPen = new Pen(Color.Yellow, 2);
+        private readonly Pen _aquaPen = new Pen(Color.Aqua, 2);
         public MainForm()
         {
             InitializeComponent();
@@ -21,12 +21,9 @@ namespace SoundWaveSimulator
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            _mic = new Bitmap("se1mic-1.png");
-            _speaker = new Bitmap("emmiter1-1.png");
             trackBar.Minimum = _speaker.Width;
             trackBar.Maximum = Picture.Width - _mic.Width;
             trackBar.Value = trackBar.Maximum;
-            //Picture.Height = Math.Max(_mic.Height, _speaker.Height);
             Picture.Paint += Picture_Paint;
             WavePicture.Paint += WavePicture_Paint;
             Resize += Form1_Resize;
@@ -66,14 +63,17 @@ namespace SoundWaveSimulator
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             g.FillRectangle(Brushes.Black, 0, 0, Picture.Width, Picture.Height);
             var rnd = new Random(_waveOffset);
-            for (var x = 0; x < (int)(_speaker.Width * 0.8); x++)
+            var dynamicAirOffset = (int)(_speaker.Width * 0.8);
+            // draw air molecules left of loudspeaker
+            for (var x = 0; x < dynamicAirOffset; x++)
             {
                 for (var i = 0; i < n / 2; i++)
                 {
                     g.FillRectangle(particleBrush, x, rnd.Next(Picture.Height), r, r);
                 }
             }
-            for (var x = (int)(_speaker.Width * 0.8); x < Picture.Width; x++)
+            // draw air molecules right of loudspeaker using wave effect
+            for (var x = dynamicAirOffset; x < Picture.Width; x++)
             {
                 var k = (int)(Sine(x) * n) + n;
                 for (var i = 0; i < k; i++)
@@ -81,9 +81,9 @@ namespace SoundWaveSimulator
                     g.FillRectangle(particleBrush, x, rnd.Next(Picture.Height), r, r);
                 }
             }
+
             g.DrawImageUnscaled(_speaker, 0, (Picture.Height - _mic.Height) / 2);
             g.DrawImageUnscaled(_mic, Picture.Width - _mic.Width + _micPosition, (Picture.Height - _mic.Height) / 2);
-
 
             var membranaAmplitude = 20;
             var membrataTop = Picture.Height * 0.1f;
